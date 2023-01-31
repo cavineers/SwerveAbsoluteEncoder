@@ -39,7 +39,7 @@ public class SwerveModule {
     private final double absoluteEncoderOffsetRad;
 
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
-            int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+        int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
 
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
@@ -62,6 +62,8 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
+        driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
+
         resetEncoders();
     }
 
@@ -75,7 +77,7 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-            0.0, new Rotation2d((absoluteEncoder.getAbsolutePosition()) * Math.PI / 180));
+            driveEncoder.getPosition(), new Rotation2d((absoluteEncoder.getAbsolutePosition()) * Math.PI / 180));
     }
     
     
