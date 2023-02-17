@@ -108,7 +108,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             backRight.getPosition()};
     }
     public void resetOdometry(Pose2d pose) {
-         
         m_odometer.resetPosition(getRotation2d(), getPositions(), pose);
     }
 
@@ -132,21 +131,4 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
     }
-
-    /*public void drive(Translation2d translation, double rotation, boolean fieldOriented) {
-        rotation *= 2.0 / Math.hypot(DriveConstants.kWheelBase, DriveConstants.kTrackWidth);
-        ChassisSpeeds speeds;
-        if (fieldOriented) {
-            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation,
-                    Rotation2d.fromDegrees(getHeading()));
-        } else {
-            speeds = new ChassisSpeeds(translation.getX(), translation.getY(), rotation);
-        }
-
-        SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(speeds);
-        frontLeft.setDesiredState(states[0]);
-        frontRight.setDesiredState(states[1]);
-        backLeft.setDesiredState(states[2]);
-        backRight.setDesiredState(states[3]);
-    }*/
 }
