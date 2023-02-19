@@ -78,6 +78,19 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         backRight.getPosition()
     });
 
+    public double getFLAbsolutePosition(){
+        return frontLeft.getAbsolutePosition();
+    }
+    public double getFRAbsolutePosition(){
+        return frontRight.getAbsolutePosition();
+    }
+    public double getBRAbsolutePosition(){
+        return backRight.getAbsolutePosition();
+    }
+    public double getBLAbsolutePosition(){
+        return backLeft.getAbsolutePosition();
+    }
+
     
     SwerveDriveOdometry m_odometer = m_odometry;
 
@@ -121,8 +134,16 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void periodic(){
         m_odometer.update(getRotation2d(), getPositions());
         backRight.getState();
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putNumber("FrontLeft Cancoder", frontLeft.getAbsolutePosition());
+        SmartDashboard.putNumber("FrontRight Cancoder", frontRight.getAbsolutePosition());
+        SmartDashboard.putNumber("BackLeft Cancoder", backLeft.getAbsolutePosition());
+        SmartDashboard.putNumber("BackRight Cancoder", backRight.getAbsolutePosition());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+        SmartDashboard.putNumber("FrontLeft Offset", frontLeft.getOffset());
+        SmartDashboard.putNumber("FrontRight Offset", frontRight.getOffset());
+        SmartDashboard.putNumber("BackLeft Offset", backLeft.getOffset());
+        SmartDashboard.putNumber("BackRight Offset", backRight.getOffset());
+
     }
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);

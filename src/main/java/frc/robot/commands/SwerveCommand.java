@@ -9,6 +9,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveCommand extends CommandBase {
 
@@ -38,6 +39,7 @@ public class SwerveCommand extends CommandBase {
 
     @Override
     public void execute() {
+
         // Get real-time joystick inputs
         double xSpeed = xSpdFunction.get();
         double ySpeed = ySpdFunction.get();
@@ -58,8 +60,10 @@ public class SwerveCommand extends CommandBase {
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedFunction.get()) {
             // Relative to field
-            chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+            //chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            //        xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+
+            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
         } else {
             // Relative to robot
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);

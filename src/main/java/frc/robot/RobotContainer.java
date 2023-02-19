@@ -23,7 +23,6 @@ public class RobotContainer {
             () -> !driverJoystick.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)));
 
         configureButtonBindings();
-
     };
 
     private void configureButtonBindings() {

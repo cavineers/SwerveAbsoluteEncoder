@@ -12,7 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
@@ -39,7 +39,7 @@ public class SwerveModule {
         this.absoluteEncoder = new CANCoder(absoluteEncoderId);
 
         absoluteEncoder.configMagnetOffset(absoluteEncoderOffset);
-
+        
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
 
@@ -58,6 +58,14 @@ public class SwerveModule {
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders();
+    }
+
+    public double getAbsolutePosition(){
+        return absoluteEncoder.getAbsolutePosition();
+    }
+
+    public double getOffset() {
+        return absoluteEncoder.configGetMagnetOffset();
     }
 
     public double getDrivePosition() {
@@ -84,7 +92,7 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(absoluteEncoder.getAbsolutePosition());
+        turningEncoder.setPosition(absoluteEncoder.getAbsolutePosition()*(Math.PI/180)*Constants.ModuleConstants.kTurningMotorGearRatio); //absoluteEncoder.getAbsolutePosition()*(Math.PI/180)
     }
 
     public SwerveModuleState getState() {
