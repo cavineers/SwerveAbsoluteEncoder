@@ -92,7 +92,7 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(absoluteEncoder.getAbsolutePosition()*(Math.PI/180)*Constants.ModuleConstants.kTurningMotorGearRatio); //absoluteEncoder.getAbsolutePosition()*(Math.PI/180)
+        turningEncoder.setPosition(absoluteEncoder.getAbsolutePosition()*Constants.ModuleConstants.kTurningDegreesToRevolutions);
     }
 
     public SwerveModuleState getState() {

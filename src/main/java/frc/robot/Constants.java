@@ -10,11 +10,12 @@ public final class Constants {
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 1/ 6.75;
         public static final double kTurningMotorGearRatio = 1/ (150.0/7);
+        public static final double kTurningDegreesToRevolutions = 1/(360.0*kTurningMotorGearRatio);
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
-        public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60; //TBD
-        public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60; //TBD
-        public static final double kPTurning = 0.5; //TBD
+        public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
+        public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60; 
+        public static final double kPTurning = 0.5;
     }
 
     public static final class DriveConstants {
@@ -57,10 +58,10 @@ public final class Constants {
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
 
-        public static final double kFrontLeftAbsoluteEncoderOffset = 174.12+90; //185.97 offset //-5.97 +80.63
-        public static final double kBackLeftAbsoluteEncoderOffset = 179.13+90; //178.41 //-178.41 -224.03
-        public static final double kFrontRightAbsoluteEncoderOffset = 9.23; //170.94 //-170.94
-        public static final double kBackRightAbsoluteEncoderOffset = 119.54; //58.79 //-58.79
+        public static final double kFrontLeftAbsoluteEncoderOffset = 176.49; //185.97 offset //-5.97 +80.63
+        public static final double kBackLeftAbsoluteEncoderOffset = 180.44; //178.41 //-178.41 -224.03
+        public static final double kFrontRightAbsoluteEncoderOffset = 8.44; //170.94 //-170.94
+        public static final double kBackRightAbsoluteEncoderOffset = 122.35; //58.79 //-58.79
         
         // Distance between right and left wheels
         public static final double kTrackWidth = Units.inchesToMeters(23.75); 
