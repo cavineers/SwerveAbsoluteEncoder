@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -103,6 +104,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             } catch (Exception e) {
             }
         }).start();
+
+        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 1, 0);
+
+        // Convert chassis speeds to individual module states
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        
+        // Output each module states to wheels
+        setModuleStates(moduleStates);
     }
 
     public void zeroHeading() {
@@ -133,18 +142,25 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     public void periodic(){
         m_odometer.update(getRotation2d(), getPositions());
-        backRight.getState();
+
+        SmartDashboard.putNumber("FrontLeft Position", frontLeft.getEncoderPosition());
+        SmartDashboard.putNumber("FrontRight Position", frontRight.getEncoderPosition());
+        SmartDashboard.putNumber("BackLeft Position", backLeft.getEncoderPosition());
+        SmartDashboard.putNumber("BackRight Position", backRight.getEncoderPosition());
+
         SmartDashboard.putNumber("FrontLeft Cancoder", frontLeft.getAbsolutePosition());
         SmartDashboard.putNumber("FrontRight Cancoder", frontRight.getAbsolutePosition());
         SmartDashboard.putNumber("BackLeft Cancoder", backLeft.getAbsolutePosition());
         SmartDashboard.putNumber("BackRight Cancoder", backRight.getAbsolutePosition());
+        
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+
         SmartDashboard.putNumber("FrontLeft Offset", frontLeft.getOffset());
         SmartDashboard.putNumber("FrontRight Offset", frontRight.getOffset());
         SmartDashboard.putNumber("BackLeft Offset", backLeft.getOffset());
         SmartDashboard.putNumber("BackRight Offset", backRight.getOffset());
-
     }
+
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);

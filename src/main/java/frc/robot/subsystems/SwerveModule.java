@@ -64,6 +64,10 @@ public class SwerveModule {
         return absoluteEncoder.getAbsolutePosition();
     }
 
+    public double getEncoderPosition(){
+        return turningEncoder.getPosition();
+    }
+
     public double getOffset() {
         return absoluteEncoder.configGetMagnetOffset();
     }
@@ -92,7 +96,7 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(absoluteEncoder.getAbsolutePosition()*Constants.ModuleConstants.kTurningDegreesToRevolutions);
+        turningEncoder.setPosition(absoluteEncoder.getAbsolutePosition()*Constants.ModuleConstants.kTurningDegreesToRad);
     }
 
     public SwerveModuleState getState() {
@@ -107,8 +111,6 @@ public class SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
-        //SmartDashboard.putString("Swerve[" + absoluteEncoder.getAbsolutePosition() + "] Abs Position", state.toString());
-        //SmartDashboard.putString("Swerve[" + absoluteEncoder.getPosition() + "] Position", state.toString());
     }
 
     public void stop() {
