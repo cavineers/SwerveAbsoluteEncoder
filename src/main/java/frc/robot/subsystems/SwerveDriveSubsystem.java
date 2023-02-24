@@ -54,13 +54,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP); 
 
-    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
-        new Translation2d(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
-        new Translation2d(DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0),
-        new Translation2d(-DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
-        new Translation2d(-DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0)
-    );
-
     public double getHeading(){
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
@@ -70,14 +63,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-        m_kinematics, 
+        DriveConstants.kDriveKinematics, 
         getRotation2d(), 
-        new SwerveModulePosition[] {
-        frontLeft.getPosition(),
-        frontRight.getPosition(),
-        backLeft.getPosition(),
-        backRight.getPosition()
-    });
+        getPositions());
 
     public double getFLAbsolutePosition(){
         return frontLeft.getAbsolutePosition();
@@ -105,13 +93,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             }
         }).start();
 
-        ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 1, 0);
+        //ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 1, 0);
 
         // Convert chassis speeds to individual module states
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        //SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
         
         // Output each module states to wheels
-        setModuleStates(moduleStates);
+        //setModuleStates(moduleStates);
     }
 
     public void zeroHeading() {
@@ -152,8 +140,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("FrontRight Cancoder", frontRight.getAbsolutePosition());
         SmartDashboard.putNumber("BackLeft Cancoder", backLeft.getAbsolutePosition());
         SmartDashboard.putNumber("BackRight Cancoder", backRight.getAbsolutePosition());
-        
-        SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
         SmartDashboard.putNumber("FrontLeft Offset", frontLeft.getOffset());
         SmartDashboard.putNumber("FrontRight Offset", frontRight.getOffset());
