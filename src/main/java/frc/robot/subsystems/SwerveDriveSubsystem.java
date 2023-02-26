@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.SendableBuilder.BackendKind;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.SPI;
@@ -153,5 +154,22 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
+    }
+
+    public void testStates() {
+        frontLeft.setState();
+        frontRight.setState();
+        backLeft.setState();
+        backRight.setState();
+    }
+
+    public boolean checkFinished() {
+        if (frontLeft.checkZeroed()&&
+        backLeft.checkZeroed()&&
+        backRight.checkZeroed()&&
+        frontRight.checkZeroed()
+        )
+        return true;
+        return false;
     }
 }

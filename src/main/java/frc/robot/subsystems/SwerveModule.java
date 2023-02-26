@@ -16,6 +16,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
 
+import edu.wpi.first.math.MathUtil;
 
 public class SwerveModule {
 
@@ -26,6 +27,8 @@ public class SwerveModule {
     private final RelativeEncoder turningEncoder;
 
     private final PIDController turningPidController;
+
+    private final PIDController test; 
 
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
@@ -56,6 +59,9 @@ public class SwerveModule {
 
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+
+        test = new PIDController(1, 0, 0);
+        test.enableContinuousInput(0, 360);
 
         resetEncoders();
     }
@@ -96,7 +102,7 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(absoluteEncoder.getAbsolutePosition()*Constants.ModuleConstants.kTurningDegreesToRad);
+        turningEncoder.setPosition(absoluteEncoder.getPosition()*Constants.ModuleConstants.kTurningDegreesToRad);
     }
 
     public SwerveModuleState getState() {
@@ -111,6 +117,18 @@ public class SwerveModule {
         state = SwerveModuleState.optimize(state, getState().angle);
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+    }
+
+    public void setState() {
+        double results = MathUtil.clamp(test.calculate(absoluteEncoder.getPosition(),0),-.1,.1);
+        if ((!(absoluteEncoder.getPosition()>350)&&!(absoluteEncoder.getPosition()<10))||!(absoluteEncoder.getPosition()<190)&&!(absoluteEncoder.getPosition()>170))
+            turningMotor.set(results);
+    }
+
+    public boolean checkZeroed(){
+        if((absoluteEncoder.getPosition()>350)||(absoluteEncoder.getPosition()<10)||(absoluteEncoder.getPosition()<190&&absoluteEncoder.getPosition()>170))
+            return true;
+        return false;
     }
 
     public void stop() {
