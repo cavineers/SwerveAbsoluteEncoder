@@ -22,6 +22,9 @@ public class TestCommand extends CommandBase{
     @Override
     public void execute() {
         swerveSubsystem.testStates();
+        if(swerveSubsystem.checkFinished()){
+            isFinished = true;
+        }
     }
 
     @Override
