@@ -129,6 +129,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         backRight.stop();
     }
 
+    public void resetEncoders(){
+        frontLeft.resetEncoders();
+        frontRight.resetEncoders();
+        backLeft.resetEncoders();
+        backRight.resetEncoders();
+    }
+
     public void periodic(){
         m_odometer.update(getRotation2d(), getPositions());
 

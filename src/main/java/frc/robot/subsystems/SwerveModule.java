@@ -88,7 +88,7 @@ public class SwerveModule {
 
     public SwerveModulePosition getPosition() {
         return new SwerveModulePosition(
-            0.0, new Rotation2d(getTurningPosition()));
+            getDrivePosition()*Constants.ModuleConstants.kDriveEncoderRot2Meter, new Rotation2d(getTurningPosition()));
     }
     
     
@@ -102,7 +102,7 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(absoluteEncoder.getPosition()*Constants.ModuleConstants.kTurningDegreesToRad);
+        turningEncoder.setPosition(0 /*absoluteEncoder.getPosition()*Constants.ModuleConstants.kTurningDegreesToRad*/);
     }
 
     public SwerveModuleState getState() {
