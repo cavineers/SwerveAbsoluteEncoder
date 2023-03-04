@@ -14,13 +14,18 @@ import frc.robot.commands.SwerveHoming;
 
 public class RobotContainer {
 
-    private final SwerveDriveSubsystem swerveSubsystem = new SwerveDriveSubsystem();
+    private final SwerveDriveSubsystem swerveSubsystem;
 
-    public final Command SwerveHoming = new SwerveHoming(swerveSubsystem);
+    public final Command SwerveHoming;
 
-    private final Joystick driverJoystick = new Joystick(OIConstants.kDriverJoystickPort);
+    private final Joystick driverJoystick;
 
     public RobotContainer() {
+
+        swerveSubsystem = new SwerveDriveSubsystem();
+        SwerveHoming = new SwerveHoming(swerveSubsystem);
+
+        driverJoystick = new Joystick(OIConstants.kDriverJoystickPort);
 
         SwerveHoming.schedule();
 
