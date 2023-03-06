@@ -59,6 +59,14 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
 
+    public double getPitch() {
+        return gyro.getPitch();
+    }
+
+    public double getRoll() {
+        return gyro.getRoll();
+    }
+
     public Rotation2d getRotation2d(){
         return Rotation2d.fromDegrees(getHeading());
     }
