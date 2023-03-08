@@ -66,7 +66,7 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
-        test = new PIDController(0.00025, 0, 0);
+        test = new PIDController(0.03, 0, 0);
         test.enableContinuousInput(0, 360);
 
 
@@ -107,7 +107,7 @@ public class SwerveModule {
             turningMotor.setIdleMode(IdleMode.kBrake);
         }
         else{
-            turningMotor.setIdleMode(IdleMode.kCoast);
+            turningMotor.setIdleMode(IdleMode.kBrake);
         }
     }
 
@@ -135,7 +135,7 @@ public class SwerveModule {
     }
 
     public void setState() {
-        double results = MathUtil.clamp(test.calculate(absoluteEncoder.getAbsolutePosition(),180),-.1,.1);
+        double results = MathUtil.clamp(test.calculate(absoluteEncoder.getAbsolutePosition(),0),-.1,.1);
         // SmartDashboard.putNumber(id + "Unclamped Results", test.calculate(absoluteEncoder.getAbsolute(), 0));
         SmartDashboard.putNumber(id + "Results", results);
         
@@ -147,9 +147,14 @@ public class SwerveModule {
         }
     }
 
+
+
     public boolean checkZeroed(){
-        if((absoluteEncoder.getAbsolutePosition()>359)||(absoluteEncoder.getAbsolutePosition()<1)||(absoluteEncoder.getAbsolutePosition()<181&&absoluteEncoder.getAbsolutePosition()>179))
+        if ( //((absoluteEncoder.getAbsolutePosition() > 179) && (absoluteEncoder.getAbsolutePosition() < 181))
+             ((absoluteEncoder.getAbsolutePosition() > 359) || (absoluteEncoder.getAbsolutePosition() < 1))
+        ) {
             return true;
+        }
         return false;
     }
 

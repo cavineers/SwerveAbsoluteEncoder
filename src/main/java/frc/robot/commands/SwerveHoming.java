@@ -12,13 +12,14 @@ public class SwerveHoming extends CommandBase{
 
     public SwerveHoming (SwerveDriveSubsystem swerveSubsystem) {
         this.swerveSubsystem = swerveSubsystem;
-        this.isFinished = false;
+        
         addRequirements(swerveSubsystem);
     }
     
     @Override
     public void initialize() {
         swerveSubsystem.toggleIdleMode();
+        this.isFinished = false;
     }
 
     @Override

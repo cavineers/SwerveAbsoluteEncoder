@@ -55,6 +55,13 @@ public class SwerveDriveSubsystem extends SubsystemBase {
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP); 
 
+    private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+        new Translation2d(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
+        new Translation2d(DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0),
+        new Translation2d(-DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
+        new Translation2d(-DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0)
+    );
+
     public double getHeading(){
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
@@ -64,7 +71,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     }
 
     private final SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-        DriveConstants.kDriveKinematics, 
+        m_kinematics, 
         getRotation2d(), 
         getPositions());
 
@@ -93,14 +100,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             } catch (Exception e) {
             }
         }).start();
-
-        //ChassisSpeeds chassisSpeeds = new ChassisSpeeds(0, 1, 0);
-
-        // Convert chassis speeds to individual module states
-        //SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        
-        // Output each module states to wheels
-        //setModuleStates(moduleStates);
     }
 
     public void zeroHeading() {
