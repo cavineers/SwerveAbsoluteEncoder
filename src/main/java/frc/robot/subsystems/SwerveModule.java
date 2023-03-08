@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 
@@ -33,10 +34,12 @@ public class SwerveModule {
     private final CANCoder absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetDeg;
+    private final int id;
 
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
-
+        
+        this.id = absoluteEncoderId;
         this.absoluteEncoderOffsetDeg = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
         this.absoluteEncoder = new CANCoder(absoluteEncoderId);
@@ -45,6 +48,9 @@ public class SwerveModule {
         
         driveMotor = new CANSparkMax(driveMotorId, MotorType.kBrushless);
         turningMotor = new CANSparkMax(turningMotorId, MotorType.kBrushless);
+
+        driveMotor.setIdleMode(IdleMode.kCoast);
+        turningMotor.setIdleMode(IdleMode.kCoast);
 
         driveMotor.setInverted(driveMotorReversed);
         turningMotor.setInverted(turningMotorReversed);
@@ -60,8 +66,9 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
-        test = new PIDController(1, 0, 0);
+        test = new PIDController(0.00025, 0, 0);
         test.enableContinuousInput(0, 360);
+
 
         resetEncoders();
     }
@@ -95,6 +102,15 @@ public class SwerveModule {
         return driveEncoder.getVelocity();
     }
 
+    public void toggleIdleMode() {
+        if (turningMotor.getIdleMode() == IdleMode.kCoast) {
+            turningMotor.setIdleMode(IdleMode.kBrake);
+        }
+        else{
+            turningMotor.setIdleMode(IdleMode.kCoast);
+        }
+    }
+
     public double getTurningVelocity() {
         return turningEncoder.getVelocity();
     }
@@ -119,13 +135,20 @@ public class SwerveModule {
     }
 
     public void setState() {
-        double results = MathUtil.clamp(test.calculate(absoluteEncoder.getPosition(),0),-.1,.1);
-        if ((!(absoluteEncoder.getPosition()>350)&&!(absoluteEncoder.getPosition()<10))||!(absoluteEncoder.getPosition()<190)&&!(absoluteEncoder.getPosition()>170))
+        double results = MathUtil.clamp(test.calculate(absoluteEncoder.getAbsolutePosition(),180),-.1,.1);
+        // SmartDashboard.putNumber(id + "Unclamped Results", test.calculate(absoluteEncoder.getAbsolute(), 0));
+        SmartDashboard.putNumber(id + "Results", results);
+        
+        if (!checkZeroed()){
             turningMotor.set(results);
+        }
+        else{
+            stop();
+        }
     }
 
     public boolean checkZeroed(){
-        if((absoluteEncoder.getPosition()>350)||(absoluteEncoder.getPosition()<10)||(absoluteEncoder.getPosition()<190&&absoluteEncoder.getPosition()>170))
+        if((absoluteEncoder.getAbsolutePosition()>359)||(absoluteEncoder.getAbsolutePosition()<1)||(absoluteEncoder.getAbsolutePosition()<181&&absoluteEncoder.getAbsolutePosition()>179))
             return true;
         return false;
     }

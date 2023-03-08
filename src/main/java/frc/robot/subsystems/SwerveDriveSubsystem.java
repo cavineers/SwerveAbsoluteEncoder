@@ -153,6 +153,10 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("FrontRight Offset", frontRight.getOffset());
         SmartDashboard.putNumber("BackLeft Offset", backLeft.getOffset());
         SmartDashboard.putNumber("BackRight Offset", backRight.getOffset());
+
+        SmartDashboard.putBoolean("HomingFinished", checkFinished());
+
+        SmartDashboard.putBoolean("Front Left", frontLeft.checkZeroed());
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -170,13 +174,19 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         backRight.setState();
     }
 
+
+
+    public void toggleIdleMode() {
+        frontLeft.toggleIdleMode();
+        frontRight.toggleIdleMode();
+        backLeft.toggleIdleMode();
+        backRight.toggleIdleMode();
+
+    }
+
     public boolean checkFinished() {
-        if (frontLeft.checkZeroed()&&
-        backLeft.checkZeroed()&&
-        backRight.checkZeroed()&&
-        frontRight.checkZeroed()
-        )
-        return true;
+        if (frontLeft.checkZeroed()&&backLeft.checkZeroed()&&backRight.checkZeroed()&&frontRight.checkZeroed())
+            return true;
         return false;
     }
 }

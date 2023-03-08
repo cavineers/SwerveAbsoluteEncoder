@@ -17,18 +17,17 @@ public class RobotContainer {
 
     private final SwerveDriveSubsystem swerveSubsystem;
 
-    public final Command SwerveHoming;
 
     private final Joystick driverJoystick;
+    private final JoystickButton button;
 
     public RobotContainer() {
 
         swerveSubsystem = new SwerveDriveSubsystem();
-        SwerveHoming = new SwerveHoming(swerveSubsystem);
 
         driverJoystick = new Joystick(OIConstants.kDriverJoystickPort);
-
-        SwerveHoming.schedule();
+        button = new JoystickButton(driverJoystick, 4);
+        
 
         swerveSubsystem.setDefaultCommand(new SwerveCommand(
             swerveSubsystem,
@@ -42,7 +41,7 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         //new JoystickButton(driverJoystick, 2).onTrue(null)(() -> swerveSubsystem.zeroHeading());
-
+        button.onTrue(new SwerveHoming(swerveSubsystem));
     }   
 
 }

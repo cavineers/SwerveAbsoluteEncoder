@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
@@ -16,23 +18,28 @@ public class SwerveHoming extends CommandBase{
     
     @Override
     public void initialize() {
+        swerveSubsystem.toggleIdleMode();
     }
 
     @Override
     public void execute() {
         swerveSubsystem.testStates();
         if(swerveSubsystem.checkFinished()){
-            isFinished = true;
+            this.isFinished = true;
         }
+        
     }
 
     @Override
     public void end(boolean interrupted) {
+        //swerveSubsystem.toggleIdleMode();
+        swerveSubsystem.stopModules();
+        swerveSubsystem.resetEncoders();
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return this.isFinished;
     }
 
 }
