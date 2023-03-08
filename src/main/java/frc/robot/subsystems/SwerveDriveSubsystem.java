@@ -56,14 +56,18 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     private final AHRS gyro = new AHRS(SPI.Port.kMXP); 
 
     private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
-        new Translation2d(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
-        new Translation2d(DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0),
-        new Translation2d(-DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
-        new Translation2d(-DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0)
+        new Translation2d(DriveConstants.kWheelBase / 2.0, DriveConstants.kTrackWidth / 2.0),
+        new Translation2d(DriveConstants.kWheelBase / 2.0, -DriveConstants.kTrackWidth / 2.0),
+        new Translation2d(-DriveConstants.kWheelBase / 2.0, DriveConstants.kTrackWidth / 2.0),
+        new Translation2d(-DriveConstants.kWheelBase / 2.0, -DriveConstants.kTrackWidth / 2.0)
     );
 
     public double getHeading(){
         return Math.IEEEremainder(gyro.getAngle(), 360);
+    }
+
+    public SwerveDriveKinematics getKinematics(){
+        return m_kinematics;
     }
 
     public Rotation2d getRotation2d(){
@@ -161,9 +165,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
-        frontRight.setDesiredState(desiredStates[1]);
-        backLeft.setDesiredState(desiredStates[2]);
-        backRight.setDesiredState(desiredStates[3]);
+        // frontRight.setDesiredState(desiredStates[1]);
+        // backLeft.setDesiredState(desiredStates[2]);
+        // backRight.setDesiredState(desiredStates[3]);
     }
 
     public void testStates() {

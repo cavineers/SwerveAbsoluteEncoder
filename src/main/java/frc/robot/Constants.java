@@ -67,14 +67,7 @@ public final class Constants {
         public static final double kTrackWidth = Units.inchesToMeters(23.75); 
         // Distance between front and back wheels
         public static final double kWheelBase = Units.inchesToMeters(24.75);
-       
-        public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-                new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, -kTrackWidth / 2),
-                new Translation2d(-kWheelBase / 2, kTrackWidth / 2));
     }
-
     public static final class OIConstants {
         public static final int kDriverJoystickPort = 0;
 
