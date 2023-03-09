@@ -23,8 +23,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         DriveConstants.kFrontLeftDriveEncoderReversed, 
         DriveConstants.kFrontLeftTurningEncoderReversed,
         DriveConstants.kFrontLeftAbsoluteEncoderPort, 
-        DriveConstants.kFrontLeftAbsoluteEncoderOffset, 
-        DriveConstants.kFrontLeftAbsoluteEncoderReversed);
+        DriveConstants.kFrontLeftAbsoluteEncoderOffset);
     
     private final SwerveModule frontRight = new SwerveModule(
         DriveConstants.kFrontRightDriveCanID, 
@@ -32,8 +31,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         DriveConstants.kFrontRightDriveEncoderReversed, 
         DriveConstants.kFrontRightTurningEncoderReversed,
         DriveConstants.kFrontRightAbsoluteEncoderPort, 
-        DriveConstants.kFrontRightAbsoluteEncoderOffset, 
-        DriveConstants.kFrontRightAbsoluteEncoderReversed);
+        DriveConstants.kFrontRightAbsoluteEncoderOffset);
 
     private final SwerveModule backLeft = new SwerveModule(
         DriveConstants.kBackLeftDriveCanID, 
@@ -41,8 +39,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         DriveConstants.kBackLeftDriveEncoderReversed, 
         DriveConstants.kBackLeftTurningEncoderReversed,
         DriveConstants.kBackLeftAbsoluteEncoderPort, 
-        DriveConstants.kBackLeftAbsoluteEncoderOffset, 
-        DriveConstants.kBackLeftAbsoluteEncoderReversed);
+        DriveConstants.kBackLeftAbsoluteEncoderOffset);
 
     private final SwerveModule backRight = new SwerveModule(
         DriveConstants.kBackRightDriveCanID, 
@@ -50,8 +47,7 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         DriveConstants.kBackRightDriveEncoderReversed, 
         DriveConstants.kBackRightTurningEncoderReversed,
         DriveConstants.kBackRightAbsoluteEncoderPort, 
-        DriveConstants.kBackRightAbsoluteEncoderOffset, 
-        DriveConstants.kBackRightAbsoluteEncoderReversed);
+        DriveConstants.kBackRightAbsoluteEncoderOffset);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP); 
 
@@ -88,7 +84,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         return backLeft.getAbsolutePosition();
     }
 
-    
     SwerveDriveOdometry m_odometer = m_odometry;
 
     public SwerveDriveSubsystem() {
@@ -117,22 +112,9 @@ public class SwerveDriveSubsystem extends SubsystemBase {
             backLeft.getPosition(),
             backRight.getPosition()};
     }
+
     public void resetOdometry(Pose2d pose) {
         m_odometer.resetPosition(getRotation2d(), getPositions(), pose);
-    }
-
-    public void stopModules() {
-        frontLeft.stop();
-        frontRight.stop();
-        backLeft.stop();
-        backRight.stop();
-    }
-
-    public void resetEncoders(){
-        frontLeft.resetEncoders();
-        frontRight.resetEncoders();
-        backLeft.resetEncoders();
-        backRight.resetEncoders();
     }
 
     public void periodic(){
@@ -147,11 +129,6 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("FrontRight Cancoder", frontRight.getAbsolutePosition());
         SmartDashboard.putNumber("BackLeft Cancoder", backLeft.getAbsolutePosition());
         SmartDashboard.putNumber("BackRight Cancoder", backRight.getAbsolutePosition());
-
-        SmartDashboard.putNumber("FrontLeft Offset", frontLeft.getOffset());
-        SmartDashboard.putNumber("FrontRight Offset", frontRight.getOffset());
-        SmartDashboard.putNumber("BackLeft Offset", backLeft.getOffset());
-        SmartDashboard.putNumber("BackRight Offset", backRight.getOffset());
 
         SmartDashboard.putBoolean("HomingFinished", checkFinished());
 
@@ -173,15 +150,27 @@ public class SwerveDriveSubsystem extends SubsystemBase {
         backRight.setState();
     }
 
-
-
     public void toggleIdleMode() {
         frontLeft.toggleIdleMode();
         frontRight.toggleIdleMode();
         backLeft.toggleIdleMode();
         backRight.toggleIdleMode();
-
     }
+
+    public void stopModules() {
+        frontLeft.stop();
+        frontRight.stop();
+        backLeft.stop();
+        backRight.stop();
+    }
+
+    public void resetEncoders(){
+        frontLeft.resetEncoders();
+        frontRight.resetEncoders();
+        backLeft.resetEncoders();
+        backRight.resetEncoders();
+    }
+
 
     public boolean checkFinished() {
         if (frontLeft.checkZeroed()&&backLeft.checkZeroed()&&backRight.checkZeroed()&&frontRight.checkZeroed())

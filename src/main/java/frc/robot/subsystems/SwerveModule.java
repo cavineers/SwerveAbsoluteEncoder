@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ModuleConstants;
@@ -32,16 +33,14 @@ public class SwerveModule {
     private final PIDController test; 
 
     private final CANCoder absoluteEncoder;
-    private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetDeg;
     private final int id;
 
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
-            int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+            int absoluteEncoderId, double absoluteEncoderOffset) {
         
         this.id = absoluteEncoderId;
         this.absoluteEncoderOffsetDeg = absoluteEncoderOffset;
-        this.absoluteEncoderReversed = absoluteEncoderReversed;
         this.absoluteEncoder = new CANCoder(absoluteEncoderId);
 
         absoluteEncoder.configMagnetOffset(absoluteEncoderOffset);
@@ -117,7 +116,7 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turningEncoder.setPosition(0 /*absoluteEncoder.getPosition()*Constants.ModuleConstants.kTurningDegreesToRad*/);
+        turningEncoder.setPosition(0);
     }
 
     public SwerveModuleState getState() {
@@ -146,8 +145,6 @@ public class SwerveModule {
             stop();
         }
     }
-
-
 
     public boolean checkZeroed(){
         if ( //((absoluteEncoder.getAbsolutePosition() > 179) && (absoluteEncoder.getAbsolutePosition() < 181))
