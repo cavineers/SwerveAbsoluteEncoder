@@ -66,7 +66,7 @@ public class SwerveModule {
         turningPidController = new PIDController(ModuleConstants.kPTurning, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
-        test = new PIDController(0.03, 0, 0);
+        test = new PIDController(0.0005, 0, 0);
         test.enableContinuousInput(0, 360);
 
 
@@ -134,9 +134,32 @@ public class SwerveModule {
         turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
     }
 
+    private double clampSign(double val) {
+        if (Math.signum(val) == -1) {
+            return MathUtil.clamp(val, -.1, -.02);
+        }else {
+            return MathUtil.clamp(val, .02, 0.1);
+        }
+    }
+
+    private double clampPrecise(double val) {
+        if ((this.absoluteEncoder.getAbsolutePosition() >= 170) && (this.absoluteEncoder.getAbsolutePosition() <= 190)) {
+            if (Math.signum(val) == 1){
+                return MathUtil.clamp(val, .01, 0.02);
+            }
+            else {
+                return MathUtil.clamp(val, -.02, -.01);
+            }
+        }
+        else {
+            return val;
+        }
+    }
+
     public void setState() {
-        double results = MathUtil.clamp(test.calculate(absoluteEncoder.getAbsolutePosition(),0),-.1,.1);
-        // SmartDashboard.putNumber(id + "Unclamped Results", test.calculate(absoluteEncoder.getAbsolute(), 0));
+        double unclampedResults = test.calculate(absoluteEncoder.getAbsolutePosition(),0);
+        double results = clampPrecise(unclampedResults);
+        SmartDashboard.putNumber(id + "Unclamped Results", test.calculate(absoluteEncoder.getAbsolutePosition(), 0));
         SmartDashboard.putNumber(id + "Results", results);
         
         if (!checkZeroed()){
@@ -150,8 +173,8 @@ public class SwerveModule {
 
 
     public boolean checkZeroed(){
-        if ( //((absoluteEncoder.getAbsolutePosition() > 179) && (absoluteEncoder.getAbsolutePosition() < 181))
-             ((absoluteEncoder.getAbsolutePosition() > 359) || (absoluteEncoder.getAbsolutePosition() < 1))
+        if ( ((absoluteEncoder.getAbsolutePosition() > 179) && (absoluteEncoder.getAbsolutePosition() < 181))
+             //((absoluteEncoder.getAbsolutePosition() > 359) || (absoluteEncoder.getAbsolutePosition() < 1))
         ) {
             return true;
         }

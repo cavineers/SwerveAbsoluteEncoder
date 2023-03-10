@@ -17,10 +17,37 @@ public final class Constants {
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60; 
         public static final double kPTurning = 0.5;
     }
+    public static final class Intake{
+        public static int IntakeTopID        = 16; // IntakeMotor (neo)
+        public static int IntakeBottomID     = 17; // IntakeMotor (neo)
+        public static int IntakeRightDropMotorID  = 18; // IntakeDropMotor (neo)
+        public static int IntakeLeftDropMotorID   = 15;
+
+        public static boolean kInvertRightDeployMotor = false;
+        public static boolean kInvertLeftDeployMotor = false;
+        public static boolean kInvertTopFlyWheel = false;
+        public static boolean kInvertBottom = false;
+
+        public static double IntakeSpeed = 0.4;
+        public static double FlyWheelSpeed = 0.15;
+
+        public static double IntakeLowerLeftSpeed = IntakeSpeed;
+        public static double IntakeRaiseLeftSpeed = IntakeSpeed;
+        public static double IntakeLowerRightSpeed = IntakeSpeed;
+        public static double IntakeRaiseRightSpeed = IntakeSpeed;
+        
+        public static double IntakeSpeedTop = FlyWheelSpeed; // Intake motor speed (-1.0 -- 1.0)
+        public static double IntakeSpeedBottom = FlyWheelSpeed+.1; // Intake motor speed (-1.0 -- 1.0)
+
+        public static double RevolutionsToLower = 53;
+    }
+    public static final class DIO {
+        public static int IntakeSwitch = 8;
+    }
 
     public static final class DriveConstants {
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 1.5;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
         public static final int kFrontLeftDriveCanID = 1;
@@ -54,7 +81,7 @@ public final class Constants {
         public static final boolean kFrontRightAbsoluteEncoderReversed = false; //TBD
         public static final boolean kBackRightAbsoluteEncoderReversed = false; //TBD
 
-        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 3;
+        public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond;
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
