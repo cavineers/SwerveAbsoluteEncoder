@@ -39,10 +39,10 @@ public final class Constants {
         public static double IntakeSpeedTop = FlyWheelSpeed; // Intake motor speed (-1.0 -- 1.0)
         public static double IntakeSpeedBottom = FlyWheelSpeed+.1; // Intake motor speed (-1.0 -- 1.0)
 
-        public static double RevolutionsToLower = 53;
+        public static double RevolutionsToLower = 51;
     }
     public static final class DIO {
-        public static int IntakeSwitch = 8;
+        public static int IntakeSwitch = 7;
     }
 
     public static final class DriveConstants {
