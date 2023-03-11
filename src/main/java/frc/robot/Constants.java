@@ -29,7 +29,7 @@ public final class Constants {
         public static boolean kInvertBottom = false;
 
         public static double IntakeSpeed = 0.4;
-        public static double FlyWheelSpeed = 0.15;
+        public static double FlyWheelSpeed = 0.25;
 
         public static double IntakeLowerLeftSpeed = IntakeSpeed;
         public static double IntakeRaiseLeftSpeed = IntakeSpeed;
@@ -39,7 +39,7 @@ public final class Constants {
         public static double IntakeSpeedTop = FlyWheelSpeed; // Intake motor speed (-1.0 -- 1.0)
         public static double IntakeSpeedBottom = FlyWheelSpeed+.1; // Intake motor speed (-1.0 -- 1.0)
 
-        public static double RevolutionsToLower = 51;
+        public static double RevolutionsToLower = 48;
     }
     public static final class DIO {
         public static int IntakeSwitch = 7;
@@ -47,7 +47,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 1.5;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = 1;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
         public static final int kFrontLeftDriveCanID = 1;
