@@ -13,8 +13,6 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.SwerveHoming;
 import frc.robot.Robot;
 
-import frc.robot.commands.ToggleDeployIntake;
-import frc.robot.commands.ToggleUndeployIntake;
 
 public class RobotContainer {
 
@@ -25,9 +23,13 @@ public class RobotContainer {
     private final JoystickButton button;
     public JoystickButton l_bump;
 
+    public SwerveHoming swerveHomingCommand;
+
     public RobotContainer() {
 
         swerveSubsystem = new SwerveDriveSubsystem();
+
+        swerveHomingCommand = new SwerveHoming(swerveSubsystem);
 
         driverJoystick = new Joystick(OIConstants.kDriverJoystickPort);
         button = new JoystickButton(driverJoystick, 4);
@@ -45,11 +47,11 @@ public class RobotContainer {
     };
 
     private void configureButtonBindings() {
-        //new JoystickButton(driverJoystick, 2).onTrue(null)(() -> swerveSubsystem.zeroHeading());
-        button.onTrue(new SwerveHoming(swerveSubsystem));
 
-        this.l_bump.onTrue(new ToggleDeployIntake());
-        this.l_bump.onFalse(new ToggleUndeployIntake());
     }   
+
+    public SwerveDriveSubsystem getSwerveSubsystem() {
+        return this.swerveSubsystem;
+    }
 
 }
