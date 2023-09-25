@@ -17,30 +17,7 @@ public final class Constants {
         public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60; 
         public static final double kPTurning = 0.5;
     }
-    public static final class Intake{
-        public static int IntakeTopID        = 16; // IntakeMotor (neo)
-        public static int IntakeBottomID     = 17; // IntakeMotor (neo)
-        public static int IntakeRightDropMotorID  = 18; // IntakeDropMotor (neo)
-        public static int IntakeLeftDropMotorID   = 15;
-
-        public static boolean kInvertRightDeployMotor = false;
-        public static boolean kInvertLeftDeployMotor = false;
-        public static boolean kInvertTopFlyWheel = false;
-        public static boolean kInvertBottom = false;
-
-        public static double IntakeSpeed = 0.4;
-        public static double FlyWheelSpeed = 0.25;
-
-        public static double IntakeLowerLeftSpeed = IntakeSpeed;
-        public static double IntakeRaiseLeftSpeed = IntakeSpeed;
-        public static double IntakeLowerRightSpeed = IntakeSpeed;
-        public static double IntakeRaiseRightSpeed = IntakeSpeed;
-        
-        public static double IntakeSpeedTop = FlyWheelSpeed; // Intake motor speed (-1.0 -- 1.0)
-        public static double IntakeSpeedBottom = FlyWheelSpeed+.1; // Intake motor speed (-1.0 -- 1.0)
-
-        public static double RevolutionsToLower = 48;
-    }
+    
     public static final class DIO {
         public static int IntakeSwitch = 7;
     }
@@ -74,7 +51,6 @@ public final class Constants {
         public static final boolean kBackLeftDriveEncoderReversed = false;
         public static final boolean kFrontRightDriveEncoderReversed = true;
         public static final boolean kBackRightDriveEncoderReversed = true;
-
 
         public static final boolean kFrontLeftAbsoluteEncoderReversed = true;
         public static final boolean kBackLeftAbsoluteEncoderReversed = true; //TBD
