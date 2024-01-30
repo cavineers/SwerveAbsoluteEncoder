@@ -5,7 +5,8 @@ import frc.robot.subsystems.SwerveDriveSubsystem;
 import java.lang.Math;
 import java.util.function.Supplier;
 
-import com.revrobotics.CANSparkMax.IdleMode;
+
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import frc.robot.Constants.DriveConstants;
